@@ -6,19 +6,16 @@ import {
   Get,
   Patch,
   Param,
-  UseGuards,
   NotFoundException,
 } from '@nestjs/common';
 import { EventBookingService } from './event-booking.service';
 import { EventBookingDto } from './dto/create-event-booking.dto';
 import { ConfirmAttendanceDto } from './dto/confirm-attending.dto';
-import { AuthGuard } from '@nestjs/passport';
 
 @Controller('event-booking')
 export class EventBookingController {
   constructor(private readonly eventBookingService: EventBookingService) {}
 
-  @UseGuards(AuthGuard())
   @Post('create')
   async bookEvent(@Body() eventBookingDto: EventBookingDto) {
     return this.eventBookingService.create(eventBookingDto);
@@ -67,52 +64,3 @@ export class EventBookingController {
     return { message: 'Attendance confirmed' };
   }
 }
-
-// // src/event-booking/event-booking.controller.ts
-// import {
-//   Controller,
-//   Post,
-//   Body,
-//   Get,
-//   Patch,
-//   Param,
-//   // Delete,
-// } from '@nestjs/common';
-// import { EventBookingService } from './event-booking.service';
-// import { EventBookingDto } from './dto/create-event-booking.dto';
-
-// @Controller('event-booking')
-// export class EventBookingController {
-//   constructor(private readonly eventBookingService: EventBookingService) {}
-
-//   @Post('create')
-//   async bookEvent(@Body() eventBookingDto: EventBookingDto) {
-//     return this.eventBookingService.create(eventBookingDto);
-//   }
-
-//   @Post()
-//   create(@Body() eventBookingDto: EventBookingDto) {
-//     return this.eventBookingService.create(eventBookingDto);
-//   }
-
-//   @Get('user/:userId')
-//   async getEventsByUserId(
-//     @Param('userId') userId: string,
-//   ): Promise<EventBookingDto[]> {
-//     return this.eventBookingService.getEventsByUserId(userId);
-//   }
-
-//   @Get('all')
-//   async getAllBookedEvents() {
-//     const bookedEvents = await this.eventBookingService.getAllBookedEvents();
-//     return bookedEvents;
-//   }
-
-//   @Patch(':eventId/confirm-attendance')
-//   async confirmAttendance(
-//     @Param('eventId') eventId: string,
-//     @Body() { userId }: { userId: string },
-//   ): Promise<EventBooking> {
-//     return this.eventBookingService.confirmAttendance(eventId, userId);
-//   }
-// }
